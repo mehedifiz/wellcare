@@ -6,6 +6,7 @@ import "./globals.css";
 import Navbar from "@/components/shared/Nav";
 import Footer from "@/components/shared/Footer";
 import { ThemeProvider } from "@/lib/theme-provider";
+import { Toaster } from "sonner";
 
 const _geist = Geist({ subsets: ["latin"] });
 const _geistMono = Geist_Mono({ subsets: ["latin"] });
@@ -33,6 +34,7 @@ export default function RootLayout({
         <body className="font-sans antialiased mx-5">
           <Navbar />
           {children}
+          <Toaster />
           <Footer />
         </body>
       </ThemeProvider>
