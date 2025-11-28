@@ -24,9 +24,9 @@ export default function Navbar() {
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2">
           <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-emerald-600">
-            <span className="text-lg font-bold text-white">W</span>
+            <span className="text-lg font-bold text-white">c</span>
           </div>
-          <span className="text-xl font-bold text-foreground">WellCare</span>
+          <span className="text-xl font-bold text-foreground">CarCare</span>
         </Link>
 
         {/* Desktop Navigation */}
