@@ -2,22 +2,24 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { Menu, X } from "lucide-react";
+import { Menu, Moon, Sun, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useTheme } from "next-themes";
 
 const navLinks = [
   { label: "Home", href: "/" },
   { label: "Services", href: "#services" },
-  { label: "Doctors", href: "#doctors" },
   { label: "About", href: "#about" },
   { label: "Contact", href: "#contact" },
 ];
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = React.useState(false);
+  const { theme, setTheme } = useTheme();
+
 
   return (
-    <nav className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <nav className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2">
@@ -41,10 +43,17 @@ export default function Navbar() {
         </div>
 
         {/* Desktop CTA */}
-        <div className="hidden md:block">
+        <div className="hidden md:flex flex-row gap-2 items-center">
           <Button className="bg-emerald-600 hover:bg-emerald-700">
             <Link href={"/dashboard"}>Book Appointment</Link>
           </Button>
+          {/* theme toggle */}
+          <button
+            onClick={() => setTheme(theme === "light" ? "dark" : "light")}
+            className="px-3 py-1 rounded-full text-sm border theme-border"
+          >
+            {theme === "light" ? <Moon size={16} /> : <Sun size={16} />}
+          </button>
         </div>
 
         {/* Mobile Menu Button */}
@@ -58,6 +67,9 @@ export default function Navbar() {
       </div>
 
       {/* Mobile Navigation */}
+
+      {/* Actions */}
+      <div className="flex items-center gap-3"></div>
       {isOpen && (
         <div className="border-t border-border/40 bg-background md:hidden">
           <div className="flex flex-col space-y-1 px-4 py-4">

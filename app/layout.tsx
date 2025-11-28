@@ -5,6 +5,7 @@ import "./globals.css";
 // <CHANGE> Import Navbar and Footer from shared folder
 import Navbar from "@/components/shared/Nav";
 import Footer from "@/components/shared/Footer";
+import { ThemeProvider } from "@/lib/theme-provider";
 
 const _geist = Geist({ subsets: ["latin"] });
 const _geistMono = Geist_Mono({ subsets: ["latin"] });
@@ -23,11 +24,18 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="font-sans antialiased mx-5">
-        <Navbar />
-        {children}
-        <Footer />
-      </body>
+      <ThemeProvider
+        attribute="class"
+        defaultTheme="system"
+        enableSystem
+        disableTransitionOnChange
+      >
+        <body className="font-sans antialiased mx-5">
+          <Navbar />
+          {children}
+          <Footer />
+        </body>
+      </ThemeProvider>
     </html>
   );
 }

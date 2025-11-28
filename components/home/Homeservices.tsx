@@ -1,77 +1,101 @@
-import { Heart, Brain, Baby, Stethoscope, Eye, Bone } from "lucide-react";
-import { Card, CardContent } from "@/components/ui/card";
+"use client";
+
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+} from "@/components/ui/card";
+import {
+  Car,
+  Wrench,
+  Droplet,
+
+  BatteryCharging,
+  AirVent,
+} from "lucide-react";
 
 const services = [
   {
-    icon: Stethoscope,
-    title: "General Checkup",
+    name: "Oil Change",
+    type: "Maintenance",
+    icon: <Droplet className="w-8 h-8 text-yellow-500" />,
+    description: "Keep your engine running smoothly with regular oil changes.",
+    color: "bg-white dark:bg-gray-800",
+  },
+  {
+    name: "Tire Replacement",
+    type: "Repair",
+    icon: <Car className="w-8 h-8 text-green-500" />,
     description:
-      "Comprehensive health assessments to monitor and maintain your overall wellbeing.",
+      "Replace worn-out tires with high-quality ones for safety and performance.",
+    color: "bg-white dark:bg-gray-800",
   },
   {
-    icon: Heart,
-    title: "Cardiology",
+    name: "Brake Service",
+    type: "Repair",
+    icon: <Wrench className="w-8 h-8 text-red-500" />,
     description:
-      "Expert heart care with advanced diagnostics and treatment options.",
+      "Ensure your brakes are in perfect condition for safe driving.",
+    color: "bg-white dark:bg-gray-800",
   },
   {
-    icon: Brain,
-    title: "Neurology",
-    description: "Specialized care for brain and nervous system disorders.",
+    name: "Battery Check & Replacement",
+    type: "Maintenance",
+    icon: <BatteryCharging className="w-8 h-8 text-orange-500" />,
+    description:
+      "Check your battery health and replace if needed to avoid breakdowns.",
+    color: "bg-white dark:bg-gray-800",
   },
   {
-    icon: Baby,
-    title: "Pediatrics",
-    description: "Dedicated healthcare for infants, children, and adolescents.",
+    name: "AC & Cooling Service",
+    type: "Maintenance",
+    icon: <AirVent className="w-8 h-8 text-cyan-500" />,
+    description: "Keep your car cool and comfortable with AC servicing.",
+    color: "bg-white dark:bg-gray-800",
   },
   {
-    icon: Eye,
-    title: "Ophthalmology",
-    description: "Complete eye care from routine exams to surgical treatments.",
-  },
-  {
-    icon: Bone,
-    title: "Orthopedics",
-    description: "Treatment for bones, joints, and musculoskeletal conditions.",
+    name: "Full Car Inspection",
+    type: "Diagnostics",
+    icon: <Car className="w-8 h-8 text-blue-500" />,
+    description:
+      "Comprehensive check-up to detect any issues early and prevent major repairs.",
+    color: "bg-white dark:bg-gray-800",
   },
 ];
 
 export default function HomeServices() {
   return (
-    <section id="services" className="bg-muted/30 py-16 md:py-24">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        {/* Section Header */}
-        <div className="mb-12 text-center">
-          <span className="mb-2 inline-block text-sm font-medium text-emerald-600">
-            Our Services
-          </span>
-          <h2 className="mb-4 text-3xl font-bold text-foreground md:text-4xl">
-            Comprehensive Healthcare Solutions
-          </h2>
-          <p className="mx-auto max-w-2xl text-muted-foreground">
-            We offer a wide range of medical services to meet all your
-            healthcare needs with experienced professionals and modern
-            facilities.
-          </p>
-        </div>
-
-        {/* Services Grid */}
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {services.map((service) => (
+    <section
+      id="services"
+      className="bg-muted/30 dark:bg-muted/80 py-16 md:py-24"
+    >
+      <div className="container mx-auto px-5">
+        <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 text-black dark:text-white">
+          Our Car Services
+        </h2>
+        <p className="text-center mb-12 text-gray-700 dark:text-gray-300 max-w-2xl mx-auto">
+          Professional car services at your convenience. Book maintenance,
+          repairs, and inspections quickly and reliably with our certified
+          mechanics.
+        </p>
+        <div className="grid gap-8 md:grid-cols-3">
+          {services.map((service, idx) => (
             <Card
-              key={service.title}
-              className="group cursor-pointer border-border/50 bg-background transition-all hover:border-emerald-600/50 hover:shadow-lg"
+              key={idx}
+              className={`${service.color} shadow-lg dark:shadow-gray-700 rounded-xl border border-gray-200 dark:border-gray-700`}
             >
-              <CardContent className="p-6">
-                <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-emerald-100 text-emerald-600 transition-colors group-hover:bg-emerald-600 group-hover:text-white">
-                  <service.icon className="h-6 w-6" />
-                </div>
-                <h3 className="mb-2 text-lg font-semibold text-foreground">
-                  {service.title}
-                </h3>
-                <p className="text-sm text-muted-foreground">
+              <CardHeader className="flex items-center gap-4">
+                {service.icon}
+                <CardTitle className="text-black dark:text-white">
+                  {service.name}
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <CardDescription className="text-gray-700 dark:text-gray-300">
                   {service.description}
-                </p>
+                </CardDescription>
               </CardContent>
             </Card>
           ))}
