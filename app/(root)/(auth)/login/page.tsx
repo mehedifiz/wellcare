@@ -16,7 +16,7 @@ const LoginPage = () => {
     e.preventDefault();
     try {
       const res = await fetcher({
-        url: "/api/auth/login",
+        url: "/auth/login",
         method: "POST",
         body: { email, password },
       });
@@ -33,14 +33,14 @@ const LoginPage = () => {
     <div className="flex min-h-screen items-center justify-center bg-linear-to-br from-gray-100 via-gray-50 to-gray-100">
       <div className="relative w-full max-w-md">
         {/* Hero Car Image */}
-        <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-48 h-48">
+        {/* <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-48 h-48">
           <Image
-          
-            src="/car-illustration.png" // replace with your car image
+
+            src="/car-illustration.png"  
             alt="Car Service"
             className="w-full h-full object-contain"
           />
-        </div>
+        </div> */}
 
         <form
           onSubmit={handleSubmit}

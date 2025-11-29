@@ -16,12 +16,12 @@ const RegisterPage = () => {
     e.preventDefault();
     try {
       const res = await fetcher({
-        url: "/api/auth/register",
+        url: "/auth/register",
         method: "POST",
         body: { name, email, password },
       });
 
-      toast.success("Registration successful! Please log in.");
+      toast.success("Registration successful! Please check mail to verify.");
       router.push("/login");
     } catch (err) {
       console.error("Registration error:", err);
@@ -29,7 +29,7 @@ const RegisterPage = () => {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-gray-100 via-gray-50 to-gray-100">
+    <div className="flex min-h-screen items-center justify-center bg-linear-to-br from-gray-100 via-gray-50 to-gray-100">
       <div className="relative w-full max-w-md">
         {/* Hero Car Image */}
         <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-48 h-48">

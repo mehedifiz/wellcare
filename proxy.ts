@@ -1,0 +1,99 @@
+import jwt, { JwtPayload } from "jsonwebtoken";
+import { cookies } from "next/headers";
+import type { NextRequest } from "next/server";
+import { NextResponse } from "next/server";
+import {
+  getDefaultDashboardRoute,
+  getRouteOwner,
+  isAuthRoute,
+  UserRole,
+} from "./lib/authU";
+ 
+ 
+
+// This function can be marked `async` if using `await` inside
+export async function proxy(request: NextRequest) {
+  const cookieStore = await cookies();
+  const pathname = request.nextUrl.pathname;
+
+  
+  const token = request.cookies.get("token")?.value || null;
+  console.log("token", token);
+
+  let userRole: UserRole | null = null;
+  if (token) {
+    const verifiedToken: JwtPayload | string = jwt.verify(
+      token,
+      process.env.NEXT_JWT_SECRET as string
+    );
+
+     console.log("verifiedToken", verifiedToken);
+
+    if (typeof verifiedToken === "string") {
+      cookieStore.delete("token");
+      return NextResponse.redirect(new URL("/login", request.url));
+    }
+
+    userRole = verifiedToken.role;
+  }
+
+  const routerOwner = getRouteOwner(pathname);
+  //path = /doctor/appointments => "DOCTOR"
+  //path = /my-profile => "COMMON"
+  //path = /login => null
+
+  const isAuth = isAuthRoute(pathname);
+
+  // Rule 1 : User is logged in and trying to access auth route. Redirect to default dashboard
+  if (token && isAuth) {
+    return NextResponse.redirect(
+      new URL(getDefaultDashboardRoute(userRole as UserRole), request.url)
+    );
+  }
+
+  // Rule 2 : User is trying to access open public route
+  if (routerOwner === null) {
+    return NextResponse.next();
+  }
+
+  // Rule 1 & 2 for open public routes and auth routes
+
+  if (!token) {
+    const loginUrl = new URL("/login", request.url);
+    loginUrl.searchParams.set("redirect", pathname);
+    return NextResponse.redirect(loginUrl);
+  }
+
+  // Rule 3 : User is trying to access common protected route
+  if (routerOwner === "COMMON") {
+    return NextResponse.next();
+  }
+
+  // Rule 4 : User is trying to access role based protected route
+  if (
+    routerOwner === "ADMIN" ||
+    routerOwner === "USER"
+  ) {
+    if (userRole !== routerOwner) {
+      return NextResponse.redirect(
+        new URL(getDefaultDashboardRoute(userRole as UserRole), request.url)
+      );
+    }
+  }
+  console.log(userRole);
+
+  return NextResponse.next();
+}
+
+export const config = {
+  matcher: [
+    /*
+     * Match all request paths except for the ones starting with:
+     * - api (API routes)
+     * - _next/static (static files)
+     * - _next/image (image optimization files)
+     * - favicon.ico, sitemap.xml, robots.txt (metadata files)
+     */
+    "/((?!api|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt|.well-known).*)",
+  ],
+};
