@@ -20,7 +20,7 @@ export async function proxy(request: NextRequest) {
   const token = request.cookies.get("token")?.value || null;
   console.log("token", token);
 
-  let userRole: UserRole | null = null;
+   let userRole: UserRole | null = null;
   if (token) {
     const verifiedToken: JwtPayload | string = jwt.verify(
       token,
