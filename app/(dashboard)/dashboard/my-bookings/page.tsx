@@ -3,7 +3,6 @@
 import React, { useEffect, useState } from "react";
 import { useFetch } from "@/hooks/useFetch";
 
-// shadcn components
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -16,6 +15,7 @@ import {
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Skeleton } from "@/components/ui/skeleton";
 import CreateBookingModal from "@/components/dashboard/CreateBookingModal";
+import { toast } from "sonner";
 
 interface IBooking {
   _id: string;
@@ -80,6 +80,10 @@ const Page = () => {
       setErrorMsg("Failed to cancel booking.");
     }
   };
+  const handlePayment = async (bookingId: string) => {
+   alert(bookingId)
+  };
+
 
   useEffect(() => {
     fetchBookings();
@@ -87,7 +91,6 @@ const Page = () => {
 
   return (
     <div className="max-w-4xl mx-auto p-6 space-y-6">
-      {/* ============ PAGE HEADER ============ */}
       <div className="flex items-center gap-2">
         <h1 className="text-3xl font-bold tracking-tight">My Bookings</h1>
 
@@ -107,7 +110,6 @@ const Page = () => {
 
       <CreateBookingModal onSuccess={fetchBookings} />
 
-      {/* ============ ERROR MESSAGE ============ */}
       {errorMsg && (
         <Alert variant="destructive">
           <AlertTitle>Error</AlertTitle>
@@ -115,7 +117,6 @@ const Page = () => {
         </Alert>
       )}
 
-      {/* ============ LOADING SKELETON ============ */}
       {loading && (
         <div className="grid gap-4">
           {[1, 2, 3].map((i) => (
@@ -174,13 +175,21 @@ const Page = () => {
                 </p>
 
                 {b.status === "Pending" && (
-                  <Button
-                    onClick={() => cancelBooking(b._id)}
-                    variant="destructive"
-                    className="mt-3"
-                  >
-                    Cancel Booking
-                  </Button>
+                  <div className="flex gap-2 mt-3">
+                    <Button
+                      onClick={() => cancelBooking(b._id)}
+                      variant="destructive"
+                    >
+                      Cancel Booking
+                    </Button>
+
+                    <Button
+                      onClick={() => handlePayment(b._id)}
+                      variant="secondary"
+                    >
+                      Pay Now
+                    </Button>
+                  </div>
                 )}
               </CardContent>
             </Card>

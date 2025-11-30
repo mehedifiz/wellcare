@@ -12,8 +12,8 @@ const Sidebar: React.FC<SidebarProps> = ({ role }) => {
     { label: "Dashboard", href: "/admin/dashboard" },
     { label: "Manage Services", href: "/admin/dashboard/services" },
     { label: "Add Services", href: "/admin/dashboard/services/add-new" },
+    { label: "Manage Bookings", href: "/admin/dashboard/bookings" },
 
-    
     { label: "Manage Users", href: "/admin/dashboard/users" },
     { label: "Reports", href: "/dashboard/reports" },
   ];
