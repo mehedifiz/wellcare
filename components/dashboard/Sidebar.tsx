@@ -21,7 +21,7 @@ const Sidebar: React.FC<SidebarProps> = ({ role }) => {
   const userLinks = [
     { label: "Dashboard", href: "/dashboard" },
     { label: "My Profile", href: "/dashboard/profile" },
-    { label: "Bookings", href: "/dashboard/bookings" },
+    { label: "Bookings", href: "/dashboard/my-bookings" },
   ];
 
   const links = role === "ADMIN" ? adminLinks : userLinks;
