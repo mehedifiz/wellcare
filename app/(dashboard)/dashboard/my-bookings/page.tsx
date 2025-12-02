@@ -80,9 +80,42 @@ const Page = () => {
       setErrorMsg("Failed to cancel booking.");
     }
   };
-  const handlePayment = async (bookingId: string) => {
-   alert(bookingId)
-  };
+
+ const handlePayment = async (bookingId: string) => {
+   try {
+     // 1️⃣ Call your payment API
+     const { data, error } = await fetcher({
+       url: "/pay/create-ssl-payment",
+       method: "POST",
+       body: { bookingId },
+     });
+
+     // 2️⃣ Handle fetcher errors
+     if (error) {
+      console.log(error)
+       toast.error(error.message || "Payment failed. Try again.");
+       return;
+     }
+
+     console.log(data )
+     
+    
+      
+     const paymentUrl = data?.paymentUrl;
+
+     if (!paymentUrl) {
+       toast.error("Payment URL missing. Try again.");
+       return;
+     }
+
+     toast.success("Redirecting to payment...");
+     window.location.href = paymentUrl;
+   // eslint-disable-next-line @typescript-eslint/no-explicit-any
+   } catch (err: any) {
+     toast.error("Failed to start payment.");
+   }
+ };
+
 
 
   useEffect(() => {
