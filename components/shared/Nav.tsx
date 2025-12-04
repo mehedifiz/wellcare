@@ -45,7 +45,7 @@ export default function Navbar() {
         {/* Desktop CTA */}
         <div className="hidden md:flex flex-row gap-2 items-center">
           <Button className="bg-emerald-600 hover:bg-emerald-700">
-            <Link href={"/dashboard"}>Book Appointment</Link>
+            <Link href={"/dashboard"}>Book Services</Link>
           </Button>
           {/* theme toggle */}
           <button
@@ -84,7 +84,7 @@ export default function Navbar() {
               </Link>
             ))}
             <Button className="bg-emerald-600 hover:bg-emerald-700">
-              <Link href={"/dashboard"}>Book Appointment</Link>
+              <Link href={"/dashboard"}>Book Services</Link>
             </Button>
           </div>
         </div>
