@@ -2,7 +2,6 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useFetch } from "@/hooks/useFetch";
 import { logout } from "@/app/actions/logout";
 
 interface SidebarProps {
@@ -12,7 +11,6 @@ interface SidebarProps {
 const Sidebar: React.FC<SidebarProps> = ({ role }) => {
   const [open, setOpen] = useState(false);
   const router = useRouter();
-  const { fetcher } = useFetch();
 
   if (!role) return null;
 
@@ -26,19 +24,15 @@ const Sidebar: React.FC<SidebarProps> = ({ role }) => {
 
   const userLinks = [
     { label: "Dashboard", href: "/dashboard" },
-    { label: "My Profile", href: "/dashboard/profile" },
     { label: "Bookings", href: "/dashboard/my-bookings" },
   ];
 
   const links = role === "ADMIN" ? adminLinks : userLinks;
 
- 
-
- 
   const handleLogout = async () => {
     try {
-         await logout();
-         router.push("/");
+      await logout();
+      router.push("/");
     } catch (error) {
       console.error("Logout failed:", error);
     }
@@ -46,15 +40,17 @@ const Sidebar: React.FC<SidebarProps> = ({ role }) => {
 
   return (
     <>
+      {/* Hamburger for mobile */}
       {!open && (
         <button
           onClick={() => setOpen(true)}
-          className="md:hidden p-1 bg-primary text-white fixed top-16 left-4 rounded z-50"
+          className="md:hidden p-2 bg-primary text-white fixed top-16 left-4 rounded shadow z-50"
         >
           ☰
         </button>
       )}
 
+      {/* Overlay */}
       {open && (
         <div
           onClick={() => setOpen(false)}
@@ -62,41 +58,44 @@ const Sidebar: React.FC<SidebarProps> = ({ role }) => {
         ></div>
       )}
 
+      {/* Sidebar */}
       <div
         className={`
-          fixed top-16 left-0 h-full w-64 bg-base-200 p-4 z-50
+          fixed top-0 left-0 h-full w-64  border text-foreground hite p-6 flex flex-col justify-between
           transform transition-transform duration-300
           ${open ? "translate-x-0" : "-translate-x-full"}
           md:translate-x-0 md:static md:block
         `}
       >
-        <button
-          onClick={() => setOpen(false)}
-          className="md:hidden mb-6 text-right w-full"
-        >
-          ✕
-        </button>
+        <div>
+          {/* Close button on mobile */}
+          <button
+            onClick={() => setOpen(false)}
+            className="md:hidden mb-6 text-right w-full text-xl font-bold"
+          >
+            ✕
+          </button>
 
-        <h2 className="text-xl font-bold mb-6">{role} Dashboard</h2>
+          <h2 className="text-2xl font-bold mb-8">{role} Dashboard</h2>
 
-        <ul className="flex flex-col gap-3">
-          {links.map((link) => (
-            <li key={link.href}>
-              <Link
-                href={link.href}
-                className="block p-2 rounded hover:bg-primary hover:text-white"
-                onClick={() => setOpen(false)}
-              >
-                {link.label}
-              </Link>
-            </li>
-          ))}
-        </ul>
+          <ul className="flex flex-col gap-4">
+            {links.map((link) => (
+              <li key={link.href}>
+                <Link
+                  href={link.href}
+                  className="block p-3 rounded-lg hover:bg-white hover:text-primary transition"
+                  onClick={() => setOpen(false)}
+                >
+                  {link.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
 
-        {/* 🔘 LOGOUT BUTTON */}
         <button
           onClick={handleLogout}
-          className="mt-10 w-full bg-red-500 hover:bg-red-600 text-white p-2 rounded"
+          className="mt-6 w-full bg-red-400 hover:bg-red-500 text-white py-3 rounded-lg font-semibold transition"
         >
           Logout
         </button>
