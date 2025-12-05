@@ -27,7 +27,7 @@ export default function Hero() {
         {/* Right Image */}
         <div className="flex justify-center">
           <Image
-            src="https://media.istockphoto.com/id/1589417945/photo/hand-of-mechanic-holding-car-service-and-checking.webp?s=1024x1024&w=is&k=20&c=f0IVSrcKAnOJVqeCaLM42WlcujZMl-HoraS9HNZgLvU="
+            src="https://www.carbarn.com.bd/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fhero-v2.14801357.webp&w=480&q=50"
             alt="Car Service"
             className="w-full max-w-md drop-shadow-xl rounded-xl"
             width={400}

@@ -50,12 +50,14 @@ export default function ContactForm() {
       className="bg-muted/30 dark:bg-muted/80 py-16 md:py-24"
     >
       <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-10 items-center px-6">
-        <div className="flex flex-col items-center justify-center p-10      shadow-lg">
-          <h3 className="text-4xl font-bold mb-4">Contact Us</h3>
-          <p className="opacity-80 text-center">
-            We are always here to help you. Feel free to send your message
-            anytime.
-          </p>
+        {/* LEFT SIDE IMAGE / ICON */}
+        <div className="relative w-full h-80 md:h-full rounded-xl overflow-hidden shadow-lg">
+          <Image
+            src="https://www.carbarn.com.bd/_next/static/media/contact-page-section-img.aa7ef6c8.svg"  
+            alt="Contact Illustration"
+            fill
+            className="object-cover"
+          />
         </div>
 
         {/* RIGHT SIDE FORM */}

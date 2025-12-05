@@ -51,16 +51,15 @@ export default function AboutSection() {
           </div>
 
           {/* Optional Image */}
-          {/* <div className="flex justify-center">
+          <div className="flex justify-center">
             <Image
-            width={500}
-            height={500}
-            
-              src="https://i.ibb.co/7W2HQZs/car-service-about.png"
+              width={500}
+              height={500}
+              src="https://www.carbarn.com.bd/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fhero-v2.14801357.webp&w=480&q=50"
               alt="Car service"
               className="rounded-xl shadow-lg w-full max-w-md"
             />
-          </div> */}
+          </div>
         </div>
       </div>
     </section>

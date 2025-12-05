@@ -1,6 +1,9 @@
 "use client";
 import React, { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useFetch } from "@/hooks/useFetch";
+import { logout } from "@/app/actions/logout";
 
 interface SidebarProps {
   role?: "ADMIN" | "USER";
@@ -8,6 +11,8 @@ interface SidebarProps {
 
 const Sidebar: React.FC<SidebarProps> = ({ role }) => {
   const [open, setOpen] = useState(false);
+  const router = useRouter();
+  const { fetcher } = useFetch();
 
   if (!role) return null;
 
@@ -27,9 +32,20 @@ const Sidebar: React.FC<SidebarProps> = ({ role }) => {
 
   const links = role === "ADMIN" ? adminLinks : userLinks;
 
+ 
+
+ 
+  const handleLogout = async () => {
+    try {
+         await logout();
+         router.push("/");
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
+  };
+
   return (
     <>
-      {/* Mobile Toggle Button */}
       {!open && (
         <button
           onClick={() => setOpen(true)}
@@ -39,15 +55,13 @@ const Sidebar: React.FC<SidebarProps> = ({ role }) => {
         </button>
       )}
 
-      {/* Overlay Background (mobile) */}
       {open && (
         <div
           onClick={() => setOpen(false)}
-          className="fixed inset-0 bg-black/50  md:hidden z-40"
+          className="fixed inset-0 bg-black/50 md:hidden z-40"
         ></div>
       )}
 
-      {/* Sidebar */}
       <div
         className={`
           fixed top-16 left-0 h-full w-64 bg-base-200 p-4 z-50
@@ -78,6 +92,14 @@ const Sidebar: React.FC<SidebarProps> = ({ role }) => {
             </li>
           ))}
         </ul>
+
+        {/* 🔘 LOGOUT BUTTON */}
+        <button
+          onClick={handleLogout}
+          className="mt-10 w-full bg-red-500 hover:bg-red-600 text-white p-2 rounded"
+        >
+          Logout
+        </button>
       </div>
     </>
   );
