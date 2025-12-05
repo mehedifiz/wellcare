@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useFetch } from "@/hooks/useFetch";
 import { toast } from "sonner";
 import Image from "next/image";
+import { refreshUser } from "@/app/actions/refresh";
 
 const LoginPage = () => {
   const router = useRouter();
@@ -20,9 +21,10 @@ const LoginPage = () => {
         method: "POST",
         body: { email, password },
       });
-
+ 
       toast.success("Login successful!");
-      router.push("/dashboard"); // redirect to dashboard/home after login
+     window.location.href = "/dashboard";
+
     } catch (err) {
       console.error("Login error:", err);
       toast.error("Invalid credentials or server error");
