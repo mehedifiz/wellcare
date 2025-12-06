@@ -20,7 +20,7 @@ import {
 import { toast } from "sonner";
 import { useFetch } from "@/hooks/useFetch";
 
-interface Service {
+export interface Service {
   _id: string;
   title: string;
   price: number;
