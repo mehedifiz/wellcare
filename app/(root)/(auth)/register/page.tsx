@@ -5,6 +5,12 @@ import { useRouter } from "next/navigation";
 import { useFetch } from "@/hooks/useFetch";
 import { toast } from "sonner";
 
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
+import Image from "next/image";
+
 const RegisterPage = () => {
   const router = useRouter();
   const { fetcher, loading, error } = useFetch();
@@ -15,7 +21,7 @@ const RegisterPage = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const res = await fetcher({
+      await fetcher({
         url: "/auth/register",
         method: "POST",
         body: { name, email, password },
@@ -29,87 +35,92 @@ const RegisterPage = () => {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-linear-to-br from-gray-100 via-gray-50 to-gray-100">
-      <div className="relative w-full max-w-md">
-        {/* Hero Car Image */}
-        <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-48 h-48">
-          <img
-            src="/car-illustration.png" // replace with your car image
-            alt="Car Service"
-            className="w-full h-full object-contain"
-          />
+    <div
+      className="
+        flex min-h-screen items-center justify-center
+        bg-linear-to-br from-background/80 via-background to-background/90
+      "
+    >
+      <div className="relative w-full max-w-md px-6">
+        {/* Hero Image */}
+        <div className="absolute -top-5 left-1/2 -translate-x-1/2 w-80 h-44">
+          <div className="rounded-full shadow-lg bg-background p-3">
+            <Image
+              src="https://www.carbarn.com.bd/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fhero-v2.14801357.webp&w=480&q=50"
+              alt="Car registration banner"
+              width={600}
+              height={200}
+              className="object-contain drop-shadow-md"
+            />
+          </div>
         </div>
 
-        <form
-          onSubmit={handleSubmit}
-          className="mt-32 rounded-xl bg-white p-8 shadow-xl border border-gray-200"
-        >
-          <h2 className="mb-6 text-3xl font-bold text-center text-gray-800">
-            Create Your Account
-          </h2>
+        <Card className="mt-32 border border-border shadow-md">
+          <CardHeader>
+            <CardTitle className="text-center text-3xl font-semibold text-foreground">
+              Create Your Account
+            </CardTitle>
+          </CardHeader>
 
-          {error && <p className="mb-4 text-red-500 text-center">{error}</p>}
+          <CardContent>
+            {error && (
+              <p className="mb-4 text-center text-red-500 text-sm">{error}</p>
+            )}
 
-          <div className="mb-4">
-            <label className="mb-1 block text-sm font-medium text-gray-700">
-              Full Name
-            </label>
-            <input
-              type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              required
-              placeholder="John Doe"
-              className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-emerald-600 focus:ring focus:ring-emerald-200 transition"
-            />
-          </div>
+            <form onSubmit={handleSubmit} className="space-y-4">
+              {/* Name */}
+              <div className="space-y-1">
+                <Label>Full Name</Label>
+                <Input
+                  type="text"
+                  required
+                  placeholder="John Doe"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                />
+              </div>
 
-          <div className="mb-4">
-            <label className="mb-1 block text-sm font-medium text-gray-700">
-              Email
-            </label>
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              placeholder="example@mail.com"
-              className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-emerald-600 focus:ring focus:ring-emerald-200 transition"
-            />
-          </div>
+              {/* Email */}
+              <div className="space-y-1">
+                <Label>Email</Label>
+                <Input
+                  type="email"
+                  required
+                  placeholder="example@mail.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </div>
 
-          <div className="mb-6">
-            <label className="mb-1 block text-sm font-medium text-gray-700">
-              Password
-            </label>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              placeholder="••••••••"
-              className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-emerald-600 focus:ring focus:ring-emerald-200 transition"
-            />
-          </div>
+              {/* Password */}
+              <div className="space-y-1">
+                <Label>Password</Label>
+                <Input
+                  type="password"
+                  required
+                  placeholder="••••••••"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+              </div>
 
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full rounded-lg bg-emerald-600 px-4 py-3 text-white text-lg font-medium hover:bg-emerald-700 disabled:opacity-70 transition"
-          >
-            {loading ? "Registering..." : "Register"}
-          </button>
+              {/* Submit */}
+              <Button type="submit" disabled={loading} className="w-full">
+                {loading ? "Registering..." : "Register"}
+              </Button>
+            </form>
 
-          <p className="mt-4 text-center text-gray-500 text-sm">
-            Already have an account?{" "}
-            <span
-              onClick={() => router.push("/login")}
-              className="text-emerald-600 font-medium cursor-pointer hover:underline"
-            >
-              Log in
-            </span>
-          </p>
-        </form>
+            <p className="mt-4 text-center text-muted-foreground text-sm">
+              Already have an account?{" "}
+              <span
+                onClick={() => router.push("/login")}
+                className="cursor-pointer text-primary hover:underline font-medium"
+              >
+                Log in
+              </span>
+            </p>
+          </CardContent>
+        </Card>
       </div>
     </div>
   );
