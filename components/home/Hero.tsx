@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Hero() {
   return (
@@ -19,8 +20,12 @@ export default function Hero() {
           </p>
 
           <div className="mt-6 flex gap-4">
-            <button className="btn btn-primary px-8">Book Now</button>
-            <button className="btn btn-outline px-8">Learn More</button>
+            <Link href="/dashboard">
+              <button className="btn btn-primary px-8">Book Now</button>
+            </Link>
+            <Link href="#about">
+              <button className="btn btn-outline px-8">Learn More</button>
+            </Link>
           </div>
         </div>
 
