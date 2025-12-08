@@ -136,7 +136,7 @@ export default function UserDashboard() {
           <Clock className="h-5 w-5 text-primary" />
           Pending Bookings
         </h2>
-        {!stats?.pendingBookings || stats.pendingBookings.length === 0 ? (
+        {!stats?.pendingBookings || stats?.pendingBookings?.length === 0 ? (
           <p>No pending bookings.</p>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
