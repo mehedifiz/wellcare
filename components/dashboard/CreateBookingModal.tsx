@@ -143,11 +143,11 @@ export default function CreateBookingModal({
             value={form.carModel}
             onChange={(e) => handleChange("carModel", e.target.value)}
           />
-
           <Input
             type="date"
             placeholder="Select date"
             value={form.date}
+            min={new Date().toISOString().split("T")[0]}  
             onChange={(e) => handleChange("date", e.target.value)}
           />
 

@@ -175,49 +175,49 @@ const Page = () => {
           {bookings.map((b) => (
             <Card key={b._id} className="border shadow-sm">
               <CardHeader className="flex flex-row justify-between">
-                <CardTitle>{b.serviceId.title}</CardTitle>
+                <CardTitle>{b?.serviceId?.title}</CardTitle>
 
                 <Badge
                   variant={
-                    b.status === "Pending"
+                    b?.status === "Pending"
                       ? "secondary"
                       : b.status === "Completed"
                       ? "default"
                       : "destructive"
                   }
                 >
-                  {b.status}
+                  {b?.status}
                 </Badge>
               </CardHeader>
 
               <CardContent className="space-y-1 text-sm">
                 <p>
-                  <strong>Customer:</strong> {b.customerName}
+                  <strong>Customer:</strong> {b?.customerName}
                 </p>
                 <p>
-                  <strong>Car:</strong> {b.carModel}
+                  <strong>Car:</strong> {b?.carModel}
                 </p>
                 <p>
-                  <strong>Date:</strong> {b.date}
+                  <strong>Date:</strong> {b?.date}
                 </p>
                 <p>
-                  <strong>Time:</strong> {b.time}
+                  <strong>Time:</strong> {b?.time}
                 </p>
                 <p>
-                  <strong>Price:</strong> ${b.serviceId.price}
+                  <strong>Price:</strong> ${b?.serviceId?.price}
                 </p>
 
-                {b.status === "Pending" && (
+                {b?.status === "Pending" && (
                   <div className="flex gap-2 mt-3">
                     <Button
-                      onClick={() => cancelBooking(b._id)}
+                      onClick={() => cancelBooking(b?._id)}
                       variant="destructive"
                     >
                       Cancel Booking
                     </Button>
 
                     <Button
-                      onClick={() => handlePayment(b._id)}
+                      onClick={() => handlePayment(b?._id)}
                       variant="secondary"
                     >
                       Pay Now
