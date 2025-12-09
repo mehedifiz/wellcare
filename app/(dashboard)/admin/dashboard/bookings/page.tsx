@@ -1,7 +1,7 @@
 "use client";
 
 import { useFetch } from "@/hooks/useFetch";
-import { Info, X } from "lucide-react";
+import { Info } from "lucide-react";
 import { useEffect, useState } from "react";
 import {
   Dialog,
@@ -14,21 +14,22 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface Booking {
-  _id: string;
-  customerName: string;
-  carModel: string;
-  date: string;
-  time: string;
-  status: "Pending" | "Completed" | "Cancelled";
-  userId: {
-    name: string;
-    email: string;
+  _id?: string;
+  customerName?: string;
+  carModel?: string;
+  date?: string;
+  time?: string;
+  status?: "Pending" | "Completed" | "Cancelled";
+  userId?: {
+    name?: string;
+    email?: string;
   };
-  serviceId: {
-    title: string;
-    price: number;
+  serviceId?: {
+    title?: string;
+    price?: number;
   };
 }
 
@@ -40,60 +41,60 @@ const AdminBookingPage = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const { fetcher } = useFetch();
 
-   const fetchBookings = async () => {
-     try {
-       const res = await fetcher({
-         method: "GET",
-         url: "/booking/get-all",
-       });
-       setBookings(res?.data);
-       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-     } catch (err: any) {
-       setError(err.message || "Something went wrong");
-     } finally {
-       setLoading(false);
-     }
-   };
+  const fetchBookings = async () => {
+    try {
+      const res = await fetcher({
+        method: "GET",
+        url: "/booking/get-all",
+      });
+      setBookings(res?.data ?? []);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (err: any) {
+      setError(err?.message || "Something went wrong");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-   
     fetchBookings();
   }, []);
 
   const openModal = (booking: Booking) => {
-    setSelectedBooking(booking);
+    setSelectedBooking(booking ?? null);
     setModalOpen(true);
   };
 
-  
-
   const markAsPaid = async () => {
-    if (!selectedBooking) return;
-    console.log(selectedBooking._id)
+    if (!selectedBooking?._id) return;
 
-     try {
-       const res = await fetcher({
-         method: "PATCH",
-         url: `/booking/paid/${selectedBooking._id}`,
-       });
-       if (res.success) {
-         toast("Marked as paid ");
-         setModalOpen(false);
+    try {
+      const res = await fetcher({
+        method: "PATCH",
+        url: `/booking/paid/${selectedBooking?._id}`,
+      });
 
-         fetchBookings();
-       } else {
-       }
-       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-     } catch (err: any) {
-       setError(err.message || "Something went wrong");
-     } finally {
-       setLoading(false);
-     }
-
-
-    
+      if (res?.success) {
+        toast("Marked as paid");
+        setModalOpen(false);
+        fetchBookings();
+      }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (err: any) {
+      setError(err?.message || "Something went wrong");
+    } finally {
+      setLoading(false);
+    }
   };
 
-  if (loading) return <div className="p-6">Loading bookings...</div>;
+
+  if (loading)
+    return (
+      <>
+        <Skeleton className="w-full h-6 my-2" />
+        <Skeleton className="w-full h-6 my-2 " />
+      </>
+    );
   if (error) return <div className="p-6 text-red-500">{error}</div>;
 
   return (
@@ -113,25 +114,28 @@ const AdminBookingPage = () => {
               <th className="py-3 px-4 text-left">Info</th>
             </tr>
           </thead>
+
           <tbody>
-            {bookings.map((b) => (
-              <tr key={b._id} className="border-b  transition">
-                <td className="py-3 px-4">{b.customerName}</td>
-                <td className="py-3 px-4">{b.carModel}</td>
-                <td className="py-3 px-4">{b.serviceId.title}</td>
-                <td className="py-3 px-4">{b.date}</td>
-                <td className="py-3 px-4">{b.time}</td>
+            {bookings?.map((b) => (
+              <tr key={b?._id} className="border-b transition">
+                <td className="py-3 px-4">{b?.customerName}</td>
+                <td className="py-3 px-4">{b?.carModel}</td>
+                <td className="py-3 px-4">{b?.serviceId?.title}</td>
+                <td className="py-3 px-4">{b?.date}</td>
+                <td className="py-3 px-4">{b?.time}</td>
+
                 <td
                   className={`py-3 px-4 font-semibold ${
-                    b.status === "Completed"
+                    b?.status === "Completed"
                       ? "text-green-600"
-                      : b.status === "Pending"
+                      : b?.status === "Pending"
                       ? "text-yellow-600"
                       : "text-red-600"
                   }`}
                 >
-                  {b.status}
+                  {b?.status}
                 </td>
+
                 <td className="py-3 px-4">
                   <button
                     className="flex items-center space-x-1 text-blue-600 hover:underline"
@@ -192,17 +196,17 @@ const AdminBookingPage = () => {
             </p>
           </DialogDescription>
 
-          {selectedBooking?.status == "Pending"  && (
-              <DialogFooter>
-                <Button
-                  variant="secondary"
-                  className="w-full"
-                  onClick={markAsPaid}
-                >
-                  Mark as Paid
-                </Button>
-              </DialogFooter>
-            )}
+          {selectedBooking?.status === "Pending" && (
+            <DialogFooter>
+              <Button
+                variant="secondary"
+                className="w-full"
+                onClick={markAsPaid}
+              >
+                Mark as Paid
+              </Button>
+            </DialogFooter>
+          )}
         </DialogContent>
       </Dialog>
     </div>

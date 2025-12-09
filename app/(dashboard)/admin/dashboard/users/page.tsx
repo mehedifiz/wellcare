@@ -54,8 +54,7 @@ const Page = () => {
     setShowModal(true);
   };
 
-  // Send mail handler --------------------------------------
-  // Send mail handler --------------------------------------
+ 
   const handleSendMail = async () => {
     try {
       const res = await fetcher({

@@ -15,6 +15,7 @@ import { useFetch } from "@/hooks/useFetch";
 import { toast } from "sonner";
 import UpdateServiceModal from "@/components/dashboard/UpdateServiceModal";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
+import { Skeleton } from "@/components/ui/skeleton";
 
 // Define the service type
 interface Service {
@@ -83,7 +84,13 @@ const ServicesPage = () => {
   };
 
 
-  if (loading) return <p>Loading services...</p>;
+  if (loading)
+    return (
+      <>
+        <Skeleton className="w-full h-6 my-2" />
+        <Skeleton className="w-full h-6 my-2 " />
+      </>
+    );
 
   return (
     <div className="p-6">
